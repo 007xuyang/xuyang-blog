@@ -1,0 +1,26 @@
+{% extends 'zone/base.html' %}
+{% load threadedcomments_tags %}
+
+{% block content %}
+<div >
+    <div class="date ">
+        {% if post.published_date %}
+            {{ post.published_date }}
+        {% else %}
+            {% if user.is_authenticated %}
+                <a class="btn btn-default" href="{% url 'zone.views.post_publish' pk=post.pk %}">Publish</a>
+            {% endif %}
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}">Change<span class="glyphicon glyphicon-pencil"></span></a>
+            <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}">Remove<span class="glyphicon glyphicon-remove"></span></a>
+        {% endif %}
+		
+    </div>
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.text|linebreaks }}</p>
+	<h2>Comments for {{ post.title }}:</h2>
+	{% render_comment_list for post %}
+	{% render_comment_form for post %}
+	</div>
+{% endblock %}

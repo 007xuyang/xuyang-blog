@@ -1,0 +1,124 @@
+{% load staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<title>Django Boys Blog</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet"  type="text/css"  href="{% static 'css/bootstrap-theme.min.css' %}">
+	<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+	<link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+	 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+	<!-- <link type="text/css" rel="stylesheet" href="{% static 'css/shCoreDefault.css' %}"/> -->
+</head>
+<body id="navigation">
+	<div class="container">
+		<div class="page-header">
+			{% if user.is_authenticated %}
+			<a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+			<a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
+			<p class="top-menu top-hellow" style="font-size: 23pt;">{% trans 'Hello'%} {{ user.username }}
+            <a href="{% url 'django.contrib.auth.views.logout' %}" class="top-menu">
+                <span class="glyphicon glyphicon-log-out"></span></a>
+			</p>
+			{% else %}
+				<a href="{% url 'django.contrib.auth.views.login' %}" class="top-menu">
+				<span class="glyphicon glyphicon-log-in"></span></a>
+			{% endif %}
+			<h1 class="top-title" style="font-size: 43pt;"><a href="/">Django Boys Blog</a></h1>
+		</div>
+		
+		<nav class="navbar navbar-inverse">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Brand</a>
+			</div>
+			<div id="navbar-menu" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#">Page One</a></li>
+					<li><a href="#">Page Two</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		
+		
+		
+		<div id="content" class="row-fluid">
+			<div class="col-md-9">
+				<h2>Main Content Section</h2>
+					{% block content %}
+					{% endblock %}
+			</div>
+			
+			<div class="col-md-3">
+				<h2>Sidebar</h2> 
+				
+				&nbsp&nbsp
+				<!-- searchbox START -->
+			<div id="searchbox">
+				<form action="{% url 'zone.views.full_search' %}" method="get">
+					<div class="content">
+						<label>
+						<input type="text" class="textfield searchtip" name="q" size="24" value="">
+						</label>
+						<input type="submit" class="button" value="">
+					</div>
+				</form>
+			</div>
+					
+					&nbsp&nbsp&nbsp&nbsp
+					<div>
+					<ul class="nav nav-tabs nav-stacked">
+						<li><a href='#'>Another Link 1</a></li>
+						<li><a href='#'>Another Link 2</a></li>
+						<li><a href='#'>Another Link 3</a></li>
+					</ul> 
+					</div>
+					
+					
+				<div id="meta-2" class="widget widget_meta">
+                    <h3>功能</h3>
+                    <ul>
+                        {% if user.is_superuser %}
+                        <li><a href="/xadmin">管理站点</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'django.contrib.auth.views.logout' %}">登出</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{% url 'django.contrib.auth.views.login' %}">登录</a>
+                        </li>
+                        {% endif %}
+                        <li><a href="#">文章<abbr title="RSS">RSS</abbr></a></li>
+                    </ul>
+                </div>
+
+			</div>
+    </div>
+    </div>
+	
+		<div class="row">
+			<div class="col-md-1"></div>
+				<div class="col-md-10">
+					<div id="footer" >
+						<a id="gotop" href="#" onclick="MGJS.goTop();return false;">回到顶部</a>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js %'}"></script>
+ 
+</body>
+</html>
+
